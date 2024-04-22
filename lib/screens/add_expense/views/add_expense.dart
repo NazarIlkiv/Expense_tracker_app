@@ -219,7 +219,6 @@ class _AddExpenseState extends State<AddExpense> {
                                                 showDialog(
                                                     context: context,
                                                     builder: (ctx2) {
-                                                     
                                                       return AlertDialog(
                                                         content: Column(
                                                           mainAxisSize:
