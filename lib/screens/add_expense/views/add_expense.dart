@@ -109,7 +109,12 @@ class _AddExpenseState extends State<AddExpense> {
                                       listener: (context, state) {
                                         if (state is CreateCategorySuccess) {
                                           Navigator.pop(ctx);
-                                        } else {}
+                                        } else if (state
+                                            is CreateCategoryLoading) {
+                                          setState(() {
+                                            isLoading = true;
+                                          });
+                                        }
                                       },
                                       child: StatefulBuilder(
                                           builder: (ctx, setState) {
@@ -318,9 +323,6 @@ class _AddExpenseState extends State<AddExpense> {
                                                         )
                                                       : TextButton(
                                                           onPressed: () {
-                                                            setState(() {
-                                                              isLoading = true;
-                                                            });
                                                             Category category =
                                                                 Category.empty;
                                                             category.categoryId =
