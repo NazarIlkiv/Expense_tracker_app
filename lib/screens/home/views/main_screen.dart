@@ -1,12 +1,15 @@
 import 'dart:math';
 
+import 'package:expense_repository/expense_repository.dart';
 import 'package:expenses_tracker_app/data/data.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:intl/intl.dart';
 
 class MainScreen extends StatelessWidget {
-  const MainScreen({super.key});
+  final List<Expense> expenses;
+  const MainScreen(this.expenses, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +80,7 @@ class MainScreen extends StatelessWidget {
                   BoxShadow(
                       blurRadius: 4,
                       color: Colors.grey.shade300,
-                      offset: Offset(5, 5))
+                      offset: const Offset(5, 5))
                 ]),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -210,7 +213,7 @@ class MainScreen extends StatelessWidget {
           const SizedBox(height: 20),
           Expanded(
               child: ListView.builder(
-                  itemCount: transactionData.length,
+                  itemCount: expenses.length,
                   itemBuilder: (context, int i) {
                     return Padding(
                       padding: const EdgeInsets.only(bottom: 16),
@@ -232,15 +235,21 @@ class MainScreen extends StatelessWidget {
                                         width: 50,
                                         height: 50,
                                         decoration: BoxDecoration(
-                                            color: transactionData[i]['color'],
+                                            color: Color(
+                                                expenses[i].category.color),
                                             shape: BoxShape.circle),
                                       ),
-                                      transactionData[i]['icon'],
+                                      Image.asset(
+                                        'assets/${expenses[i].category.icon}.png',
+                                        scale: 2,
+                                        color: Colors.white,
+                                      )
+                                      // transactionData[i]['icon'],
                                     ],
                                   ),
                                   const SizedBox(width: 12),
                                   Text(
-                                    transactionData[i]['name'],
+                                    expenses[i].category.name,
                                     style: TextStyle(
                                         fontSize: 14,
                                         color: Theme.of(context)
@@ -254,7 +263,7 @@ class MainScreen extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   Text(
-                                    transactionData[i]['totalAmount'],
+                                    '\$ ${expenses[i].amount}',
                                     style: TextStyle(
                                         fontSize: 14,
                                         color: Theme.of(context)
@@ -263,7 +272,8 @@ class MainScreen extends StatelessWidget {
                                         fontWeight: FontWeight.w400),
                                   ),
                                   Text(
-                                    transactionData[i]['date'],
+                                    DateFormat('dd/MM/yyyy')
+                                        .format(expenses[i].date),
                                     style: TextStyle(
                                         fontSize: 14,
                                         color: Theme.of(context)
